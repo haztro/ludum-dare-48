@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://npc/Npc.gd" type="Script" id=1]
+[ext_resource path="res://npc/LendMoney.tscn" type="PackedScene" id=2]
+[ext_resource path="res://player/Body.tscn" type="PackedScene" id=3]
+[ext_resource path="res://npc/AIBasic.tscn" type="PackedScene" id=4]
+[ext_resource path="res://npc/TrustHearts.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/font/font.tres" type="DynamicFont" id=6]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 2.0
+height = 8.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 16.9671
+
+[node name="Npc" type="KinematicBody2D" groups=[
+"npc",
+]]
+z_index = 1
+script = ExtResource( 1 )
+
+[node name="PhysicalCollider" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -3 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="InteractCollider" type="Area2D" parent="."]
+position = Vector2( -0.0787449, -3.22855 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractCollider"]
+shape = SubResource( 2 )
+
+[node name="Body" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -9 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="LendMoney" parent="." instance=ExtResource( 2 )]
+
+[node name="AIBasic" parent="." instance=ExtResource( 4 )]
+
+[node name="TrustHearts" parent="." instance=ExtResource( 5 )]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
+position = Vector2( -0.105118, -23.1246 )
+
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_left = -0.982155
+margin_top = -27.0794
+margin_right = 39.0178
+margin_bottom = -13.0794
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.784314, 0.184314, 0.184314, 1 )
+text = "!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="body_entered" from="InteractCollider" to="." method="_on_InteractCollider_body_entered"]
+[connection signal="body_exited" from="InteractCollider" to="." method="_on_InteractCollider_body_exited"]
